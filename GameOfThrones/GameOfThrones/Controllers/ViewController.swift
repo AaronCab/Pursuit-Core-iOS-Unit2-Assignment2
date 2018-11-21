@@ -34,13 +34,26 @@ extension ViewController: UITableViewDataSource {
         return episodes.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "leftEpisodeCell", for: indexPath) as! EpisodeCell
         let episode = episodes[indexPath.row]
+        if episode.season % 2 == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "leftEpisodeCell", for: indexPath) as? EpisodeCell else {return UITableViewCell()}
+        
         cell.episodeImage.image = UIImage(named: episode.mediumImageID)
-        cell.seasonNumber.text = String(episode.season)
-        cell.episodeNumber.text = String(episode.number)
+            cell.episodeName.text = String(episode.name)
+            cell.seasonNumber.text = "S: \(episode.season)"
+            cell.episodeNumber.text = "E: \(episode.number)"
         return cell
-    }
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "leftEpisodeCell", for: indexPath) as? EpisodeCell else{return UITableViewCell()}
+            
+            cell.episodeImage.image = UIImage(named: episode.mediumImageID)
+            cell.episodeName.text = String(episode.name)
+            cell.seasonNumber.text = "S: \(episode.season)"
+            cell.episodeNumber.text = "E: \(episode.number)"
+            return cell
+        }
+        
+}
 }
 
 extension ViewController: UITableViewDelegate {
